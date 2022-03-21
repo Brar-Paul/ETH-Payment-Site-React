@@ -1,12 +1,14 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "hardhat/console.sol";
+
 contract Transactions {
     uint256 transactionCount;
 
-    event Tranfer(
+    event Transfer(
         address from,
-        address recipient,
+        address receiver,
         uint256 amount,
         string message,
         uint256 timestamp,
@@ -15,7 +17,7 @@ contract Transactions {
 
     struct TransferStruct {
         address sender;
-        address recipient;
+        address receiver;
         uint256 amount;
         string message;
         uint256 timestamp;
@@ -25,29 +27,30 @@ contract Transactions {
     TransferStruct[] transactions;
 
     function addToBlockchain(
-        address payable _recipient,
-        uint256 _amount,
-        string memory _message,
-        string memory _keyword
+        address payable receiver,
+        uint256 amount,
+        string memory message,
+        string memory keyword
     ) public {
-        transactionCount++;
+        transactionCount += 1;
         transactions.push(
             TransferStruct(
                 msg.sender,
-                _recipient,
-                _amount,
-                _message,
+                receiver,
+                amount,
+                message,
                 block.timestamp,
-                _keyword
+                keyword
             )
         );
-        emit Tranfer(
+
+        emit Transfer(
             msg.sender,
-            _recipient,
-            _amount,
-            _message,
+            receiver,
+            amount,
+            message,
             block.timestamp,
-            _keyword
+            keyword
         );
     }
 
